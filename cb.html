@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Chronic Brew | Coffee, Sandwiches, Street Food</title>
+
+  <!-- Fonts: Pirata One (logo), Anton (headings), Space Grotesk (body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Pirata+One&family=Anton&family=Space+Grotesk:wght@400;500;700&display=swap">
+  <link rel="stylesheet" href="cb.css">
+</head>
+<body>
+
+  <!-- ID GUIDE FOR YOUR BACKEND (document.getElementById):
+       header ........ site-logo, search-form, search-input, search-btn, theme-toggle, theme-switch
+       slideshow ..... slideshow, slides, slide-N, slide-N-image, slide-N-prev, slide-N-next, dot-N
+       categories .... category-KEY, category-KEY-title, category-KEY-text, category-KEY-btn
+                       (KEY = coffee | sandwiches | street-food)
+       products ...... products-grid, product-N, product-N-image, -name, -price, -rating, -reviews, -add-btn
+       footer ........ footer-location, footer-hours, footer-contact, social-NAME, footer-reviews, review-N
+       Every product card and button also has data-product-id / data-category. -->
+
+  <!-- LEAF BORDER: decorative frame around the whole site (styled in style.css, section 9) -->
+  <div class="leaf-border" id="leaf-border" aria-hidden="true"></div>
+
+  <!-- THEME SWITCH (CSS only): hidden checkbox stores the theme.
+       Unchecked = light (beige + cyan), checked = dark (colors reversed).
+       BACKEND/JS LATER: listen to this checkbox's "change" event to save the choice. -->
+  <input type="checkbox" id="theme-toggle" class="theme-checkbox" aria-label="Toggle light / dark theme">
+
+  <!-- ================= HEADER =================
+       Left: logo | Middle: search bar | Right: theme toggle -->
+  <header class="site-header" id="site-header">
+
+    <!-- Logo (top left) -->
+    <a href="#top" class="logo" id="site-logo">Chronic Brew</a>
+
+    <!-- Search bar (top middle). BACKEND LATER: read #search-input value on submit -->
+    <form class="search" id="search-form" action="#" role="search">
+      <input type="search" id="search-input" name="q" placeholder="Search coffee, burgers, momos..." aria-label="Search the menu">
+      <button type="submit" id="search-btn">Search</button>
+    </form>
+
+    <!-- Theme toggle (top right): clicking the label flips the hidden checkbox -->
+    <label for="theme-toggle" class="theme-switch" id="theme-switch" title="Switch theme">
+      <span class="icon">&#9790;</span>
+      <span class="icon">&#9728;</span>
+      <span class="knob"></span>
+    </label>
+  </header>
+
+  <main id="top">
+
+    <!-- ================= SLIDESHOW =================
+         Images only, no text. Swipe/scroll sideways, or use the arrows and dots.
+         Each slide has its own previous/next arrows, so they always go to the right neighbor.
+         Photos come from Unsplash (free to use). To swap one, paste a new image address into that img's src. -->
+    <section class="slideshow" id="slideshow" aria-label="Food photos">
+      <div class="slides" id="slides">
+        <div class="slide" id="slide-1">
+          <img id="slide-1-image" src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=1400&q=80" alt="Coffee" loading="lazy">
+          <a class="arrow prev" id="slide-1-prev" href="#slide-4" aria-label="Previous image">&#8249;</a>
+          <a class="arrow next" id="slide-1-next" href="#slide-2" aria-label="Next image">&#8250;</a>
+        </div>
+        <div class="slide" id="slide-2">
+          <img id="slide-2-image" src="https://images.unsplash.com/photo-1528735602780-2552fd46c7af?auto=format&fit=crop&w=1400&q=80" alt="Sandwich" loading="lazy">
+          <a class="arrow prev" id="slide-2-prev" href="#slide-1" aria-label="Previous image">&#8249;</a>
+          <a class="arrow next" id="slide-2-next" href="#slide-3" aria-label="Next image">&#8250;</a>
+        </div>
+        <div class="slide" id="slide-3">
+          <img id="slide-3-image" src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=1400&q=80" alt="Burger" loading="lazy">
+          <a class="arrow prev" id="slide-3-prev" href="#slide-2" aria-label="Previous image">&#8249;</a>
+          <a class="arrow next" id="slide-3-next" href="#slide-4" aria-label="Next image">&#8250;</a>
+        </div>
+        <div class="slide" id="slide-4">
+          <img id="slide-4-image" src="https://images.unsplash.com/photo-1573080496219-bb080dd4f877?auto=format&fit=crop&w=1400&q=80" alt="Fries" loading="lazy">
+          <a class="arrow prev" id="slide-4-prev" href="#slide-3" aria-label="Previous image">&#8249;</a>
+          <a class="arrow next" id="slide-4-next" href="#slide-1" aria-label="Next image">&#8250;</a>
+        </div>
+      </div>
+      <!-- Dots: jump straight to a slide -->
+      <nav class="dots" id="slideshow-dots" aria-label="Choose image"><a id="dot-1" href="#slide-1" aria-label="Image 1"></a><a id="dot-2" href="#slide-2" aria-label="Image 2"></a><a id="dot-3" href="#slide-3" aria-label="Image 3"></a><a id="dot-4" href="#slide-4" aria-label="Image 4"></a></nav>
+    </section>
+
+    <!-- ================= HERO: 3 CATEGORY CARDS =================
+         Each card = one cuisine category. BACKEND LATER: make the buttons open the category page. -->
+    <section class="hero" id="hero-section">
+      <h1 id="hero-title">What are you craving?</h1>
+      <div class="grid-3" id="categories-grid">
+
+        <article class="category" id="category-coffee">
+          <span class="tag">Coffee</span>
+          <h2 id="category-coffee-title">Coffees</h2>
+          <p id="category-coffee-text">Espresso, cold brew, lattes and cappuccinos made from fresh-roasted beans.</p>
+          <button class="btn" id="category-coffee-btn" data-category="coffee">Browse coffees</button>
+        </article>
+
+        <article class="category" id="category-sandwiches">
+          <span class="tag">Sandwiches</span>
+          <h2 id="category-sandwiches-title">Sandwiches</h2>
+          <p id="category-sandwiches-text">Grilled, toasted and stacked fresh: club, paneer, veggie and more.</p>
+          <button class="btn" id="category-sandwiches-btn" data-category="sandwiches">Browse sandwiches</button>
+        </article>
+
+        <article class="category" id="category-street-food">
+          <span class="tag">Street food</span>
+          <h2 id="category-street-food-title">Street Food</h2>
+          <p id="category-street-food-text">Spring rolls, momos and noodles, hot off the pan.</p>
+          <button class="btn" id="category-street-food-btn" data-category="street-food">Browse street food</button>
+        </article>
+      </div>
+    </section>
+
+    <!-- ================= BEST SELLING PRODUCTS =================
+         9 cards in a 3-column grid. Each has: image, name, price, rating, 2 reviews, button.
+         BACKEND LATER: render these from your database using the ids above. -->
+    <section class="best" id="best-sellers-section">
+      <h2 id="best-sellers-title">Best sellers</h2>
+      <div class="grid-3" id="products-grid">
+
+        <!-- Product 1: Cold Brew -->
+        <article class="product" id="product-1" data-product-id="1">
+          <div class="thumb"><img id="product-1-image" src="https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&w=500&q=80" alt="Cold Brew" loading="lazy"></div>
+          <h3 id="product-1-name">Cold Brew</h3>
+          <p class="meta"><span class="price" id="product-1-price">&#8377;180</span><span class="rating" id="product-1-rating">&#9733; 4.8</span></p>
+          <ul class="reviews" id="product-1-reviews"><li>"Smooth and never bitter." - Aman</li><li>"Best in town." - Riya</li></ul>
+          <button class="btn" id="product-1-add-btn" data-product-id="1">Add to cart</button>
+        </article>
+
+        <!-- Product 2: Cappuccino -->
+        <article class="product" id="product-2" data-product-id="2">
+          <div class="thumb"><img id="product-2-image" src="https://images.unsplash.com/photo-1572442388796-11668a67e53d?auto=format&fit=crop&w=500&q=80" alt="Cappuccino" loading="lazy"></div>
+          <h3 id="product-2-name">Cappuccino</h3>
+          <p class="meta"><span class="price" id="product-2-price">&#8377;150</span><span class="rating" id="product-2-rating">&#9733; 4.7</span></p>
+          <ul class="reviews" id="product-2-reviews"><li>"Perfect foam." - Karan</li><li>"Rich and creamy." - Sneha</li></ul>
+          <button class="btn" id="product-2-add-btn" data-product-id="2">Add to cart</button>
+        </article>
+
+        <!-- Product 3: Caramel Latte -->
+        <article class="product" id="product-3" data-product-id="3">
+          <div class="thumb"><img id="product-3-image" src="https://images.unsplash.com/photo-1541167760496-1628856ab772?auto=format&fit=crop&w=500&q=80" alt="Caramel Latte" loading="lazy"></div>
+          <h3 id="product-3-name">Caramel Latte</h3>
+          <p class="meta"><span class="price" id="product-3-price">&#8377;170</span><span class="rating" id="product-3-rating">&#9733; 4.6</span></p>
+          <ul class="reviews" id="product-3-reviews"><li>"Sweet but not too sweet." - Isha</li><li>"My daily order." - Dev</li></ul>
+          <button class="btn" id="product-3-add-btn" data-product-id="3">Add to cart</button>
+        </article>
+
+        <!-- Product 4: Club Sandwich -->
+        <article class="product" id="product-4" data-product-id="4">
+          <div class="thumb"><img id="product-4-image" src="https://images.unsplash.com/photo-1553909489-cd47e0907980?auto=format&fit=crop&w=500&q=80" alt="Club Sandwich" loading="lazy"></div>
+          <h3 id="product-4-name">Club Sandwich</h3>
+          <p class="meta"><span class="price" id="product-4-price">&#8377;220</span><span class="rating" id="product-4-rating">&#9733; 4.7</span></p>
+          <ul class="reviews" id="product-4-reviews"><li>"Fresh and filling." - Neha</li><li>"Great with coffee." - Rahul</li></ul>
+          <button class="btn" id="product-4-add-btn" data-product-id="4">Add to cart</button>
+        </article>
+
+        <!-- Product 5: Grilled Paneer Sandwich -->
+        <article class="product" id="product-5" data-product-id="5">
+          <div class="thumb"><img id="product-5-image" src="https://images.unsplash.com/photo-1528735602780-2552fd46c7af?auto=format&fit=crop&w=500&q=80" alt="Grilled Paneer Sandwich" loading="lazy"></div>
+          <h3 id="product-5-name">Grilled Paneer Sandwich</h3>
+          <p class="meta"><span class="price" id="product-5-price">&#8377;200</span><span class="rating" id="product-5-rating">&#9733; 4.5</span></p>
+          <ul class="reviews" id="product-5-reviews"><li>"Crispy outside, soft inside." - Pooja</li><li>"Worth it." - Yash</li></ul>
+          <button class="btn" id="product-5-add-btn" data-product-id="5">Add to cart</button>
+        </article>
+
+        <!-- Product 6: Veg Burger -->
+        <article class="product" id="product-6" data-product-id="6">
+          <div class="thumb"><img id="product-6-image" src="https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=500&q=80" alt="Veg Burger" loading="lazy"></div>
+          <h3 id="product-6-name">Veg Burger</h3>
+          <p class="meta"><span class="price" id="product-6-price">&#8377;190</span><span class="rating" id="product-6-rating">&#9733; 4.4</span></p>
+          <ul class="reviews" id="product-6-reviews"><li>"Juicy patty." - Arjun</li><li>"Big portion." - Tanya</li></ul>
+          <button class="btn" id="product-6-add-btn" data-product-id="6">Add to cart</button>
+        </article>
+
+        <!-- Product 7: Crispy Fries -->
+        <article class="product" id="product-7" data-product-id="7">
+          <div class="thumb"><img id="product-7-image" src="https://images.unsplash.com/photo-1630384060421-cb20d0e0649d?auto=format&fit=crop&w=500&q=80" alt="Crispy Fries" loading="lazy"></div>
+          <h3 id="product-7-name">Crispy Fries</h3>
+          <p class="meta"><span class="price" id="product-7-price">&#8377;110</span><span class="rating" id="product-7-rating">&#9733; 4.6</span></p>
+          <ul class="reviews" id="product-7-reviews"><li>"Always hot and crunchy." - Mehul</li><li>"Great seasoning." - Kavya</li></ul>
+          <button class="btn" id="product-7-add-btn" data-product-id="7">Add to cart</button>
+        </article>
+
+        <!-- Product 8: Veg Momos -->
+        <article class="product" id="product-8" data-product-id="8">
+          <div class="thumb"><img id="product-8-image" src="https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?auto=format&fit=crop&w=500&q=80" alt="Veg Momos" loading="lazy"></div>
+          <h3 id="product-8-name">Veg Momos</h3>
+          <p class="meta"><span class="price" id="product-8-price">&#8377;130</span><span class="rating" id="product-8-rating">&#9733; 4.8</span></p>
+          <ul class="reviews" id="product-8-reviews"><li>"Spicy chutney is amazing." - Simran</li><li>"Soft and juicy." - Vikas</li></ul>
+          <button class="btn" id="product-8-add-btn" data-product-id="8">Add to cart</button>
+        </article>
+
+        <!-- Product 9: Hakka Noodles -->
+        <article class="product" id="product-9" data-product-id="9">
+          <div class="thumb"><img id="product-9-image" src="https://images.unsplash.com/photo-1569718212165-3a8278d5f624?auto=format&fit=crop&w=500&q=80" alt="Hakka Noodles" loading="lazy"></div>
+          <h3 id="product-9-name">Hakka Noodles</h3>
+          <p class="meta"><span class="price" id="product-9-price">&#8377;160</span><span class="rating" id="product-9-rating">&#9733; 4.5</span></p>
+          <ul class="reviews" id="product-9-reviews"><li>"Smoky wok flavor." - Nikhil</li><li>"Perfect late-night meal." - Aditi</li></ul>
+          <button class="btn" id="product-9-add-btn" data-product-id="9">Add to cart</button>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <!-- ================= FOOTER =================
+       Location, hours, social links and customer reviews (all sample details) -->
+  <footer class="site-footer" id="site-footer">
+
+    <!-- Location, hours, contact -->
+    <div class="foot-col">
+      <h4>Find us</h4>
+      <p id="footer-location">12 College Road, Near Central Library<br>Your City, 400001</p>
+      <p id="footer-hours">Mon-Fri 7am-10pm<br>Sat-Sun 8am-11pm</p>
+      <p id="footer-contact">+91 98765 43210<br>hello@chronicbrew.com</p>
+    </div>
+
+    <!-- Social media links. Replace # with your real profile URLs -->
+    <div class="foot-col">
+      <h4>Follow us</h4>
+      <ul class="social" id="footer-social">
+        <li><a id="social-instagram" href="#">Instagram @chronicbrew</a></li>
+        <li><a id="social-facebook" href="#">Facebook /chronicbrew</a></li>
+        <li><a id="social-x" href="#">X @chronic_brew</a></li>
+        <li><a id="social-youtube" href="#">YouTube /chronicbrew</a></li>
+      </ul>
+    </div>
+
+    <!-- Customer reviews. BACKEND LATER: load from database into #footer-reviews -->
+    <div class="foot-col" id="footer-reviews">
+      <h4>What people say</h4>
+      <blockquote id="review-1">"Minimal space, loud flavor. My study spot." <cite>- Meera</cite></blockquote>
+      <blockquote id="review-2">"The momos alone are worth the visit." <cite>- Rohan</cite></blockquote>
+      <blockquote id="review-3">"Great playlist, better coffee." <cite>- Zoya</cite></blockquote>
+    </div>
+
+    <p class="copyright" id="copyright">&copy; 2026 Chronic Brew. College project.</p>
+  </footer>
+
+</body>
+</html>
